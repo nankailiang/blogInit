@@ -5,7 +5,7 @@ sidebar: auto
 tags: 
  - ftp
 categories:
- - ftp
+ - 其他
 ---
 
 FTP（File Transfer Protocol）是一种用于在计算机之间传输文件的标准网络协议。FTP使用两种不同的模式来建立数据连接：主动模式（Active mode）和被动模式（Passive mode）。
