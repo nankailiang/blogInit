@@ -93,3 +93,31 @@ categories:
     // 取消一个 trailing 的节流调用。
     jQuery(window).on('popstate', throttled.cancel);
 ```
+
+## _.omit(object, [props])
+这个方法一个对象，这个对象由忽略属性之外的object自身和继承的可枚举属性组成。（注：可以理解为删除object对象的属性）。
+- object (Object): 来源对象。
+- [props] (...(string|string[])): 要被忽略的属性。（注：单独指定或指定在数组中。）
+```javascript
+    var object = { 'a': 1, 'b': '2', 'c': 3 };
+ 
+    _.omit(object, ['a', 'c']);
+    // => { 'b': '2' }
+```
+
+## _.merge(object, [sources])
+递归合并 sources 来源对象自身和继承的可枚举属性到 object 目标对象。如果目标值存在，被解析为undefined的sources 来源对象属性将被跳过。数组和普通对象会递归合并，其他对象和值会被直接分配覆盖。源对象从从左到右分配。后续的来源对象属性会覆盖之前分配的属性。
+- object (Object): 目标对象。
+- [sources] (...Object): 来源对象。
+```javascript
+    var object = {
+        'a': [{ 'b': 2 }, { 'd': 4 }]
+    };
+    
+    var other = {
+        'a': [{ 'c': 3 }, { 'e': 5 }]
+    };
+    
+    _.merge(object, other);
+    // => { 'a': [{ 'b': 2, 'c': 3 }, { 'd': 4, 'e': 5 }] }
+```
