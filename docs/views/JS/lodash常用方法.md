@@ -14,16 +14,90 @@ categories:
 - path (Array|string): 要获取属性的路径。
 - [defaultValue] (*): 如果解析值是 undefined ，这值会被返回。
 ```javascript
-    var object = { 'a': [{ 'b': { 'c': 3 } }] };
+    var object = { 'a': [{ 'b': { 'c': 3 } }] }
  
-    _.get(object, 'a[0].b.c');
+    _.get(object, 'a[0].b.c')
     // => 3
  
-    _.get(object, ['a', '0', 'b', 'c']);
+    _.get(object, ['a', '0', 'b', 'c'])
     // => 3
  
-    _.get(object, 'a.b.c', 'default');
+    _.get(object, 'a.b.c', 'default')
     // => 'default'
+```
+
+## _.set(object, path, value)
+设置 object对象中对应 path 属性路径上的值，如果path不存在，则创建。 缺少的索引属性会创建为数组，而缺少的属性会创建为对象。 使用_.setWith 定制path创建。   
+Note: 这个方法会改变 object。
+- object (Object): 要修改的对象。
+- path (Array|string): 要设置的对象路径。
+- value (*): 要设置的值。
+```javascript
+    var object = { 'a': [{ 'b': { 'c': 3 } }] }
+ 
+    _.set(object, 'a[0].b.c', 4)
+    console.log(object.a[0].b.c)
+    // => 4
+    
+    _.set(object, ['x', '0', 'y', 'z'], 5)
+    console.log(object.x[0].y.z)
+    // => 5
+```
+
+## _.cloneDeep(value)
+这个方法类似_.clone，除了它会递归拷贝 value。（注：也叫深拷贝）。
+- value (*): 要深拷贝的值。
+```javascript
+    var objects = [{ 'a': 1 }, { 'b': 2 }]
+ 
+    var deep = _.cloneDeep(objects)
+    console.log(deep[0] === objects[0])
+    // => false
+```
+
+## _.uniq(array)
+创建一个去重后的array数组副本。使用了SameValueZero 做等值比较。只有第一次出现的元素才会被保留。
+- array (Array): 要检查的数组。
+```javascript
+    _.uniq([2, 1, 2])
+    // => [2, 1]
+```
+
+## __.uniqBy(array, [iteratee=_.identity])
+这个方法类似_.uniq ，除了它接受一个 iteratee （迭代函数），调用每一个数组（array）的每个元素以产生唯一性计算的标准。iteratee 调用时会传入一个参数：(value)。
+- array (Array): 要检查的数组。
+- [iteratee=_.identity] (Array|Function|Object|string): 迭代函数，调用每个元素。
+```javascript
+    _.uniqBy([2.1, 1.2, 2.3], Math.floor)
+    // => [2.1, 1.2]
+    
+    // The `_.property` iteratee shorthand.
+    _.uniqBy([{ 'x': 1 }, { 'x': 2 }, { 'x': 1 }], 'x')
+    // => [{ 'x': 1 }, { 'x': 2 }]
+```
+
+## __.sortBy(collection, [iteratees=[_.identity]])
+创建一个元素数组。 以 iteratee 处理的结果升序排序。 这个方法执行稳定排序，也就是说相同元素会保持原始排序。 iteratees 调用1个参数： (value)。
+- collection (Array|Object): 用来迭代的集合。
+- [iteratees=[_.identity]] (...(Array|Array[]|Function|Function[]|Object|Object[]|string|string[])): 这个函数决定排序。
+```javascript
+    var users = [
+        { 'user': 'fred',   'age': 48 },
+        { 'user': 'barney', 'age': 36 },
+        { 'user': 'fred',   'age': 40 },
+        { 'user': 'barney', 'age': 34 }
+    ]
+    
+    _.sortBy(users, function(o) { return o.user })
+    // => objects for [['barney', 36], ['barney', 34], ['fred', 48], ['fred', 40]]
+    
+    _.sortBy(users, ['user', 'age'])
+    // => objects for [['barney', 34], ['barney', 36], ['fred', 40], ['fred', 48]]
+    
+    _.sortBy(users, 'user', function(o) {
+        return Math.floor(o.age / 10)
+    })
+    // => objects for [['barney', 36], ['barney', 34], ['fred', 48], ['fred', 40]]
 ```
 
 ## __.orderBy(collection, [iteratees=[_.identity]], [orders])
@@ -37,10 +111,10 @@ categories:
         { 'user': 'barney', 'age': 34 },
         { 'user': 'fred',   'age': 40 },
         { 'user': 'barney', 'age': 36 }
-    ];
+    ]
  
     // 以 `user` 升序排序 再  `age` 以降序排序。
-    _.orderBy(users, ['user', 'age'], ['asc', 'desc']);
+    _.orderBy(users, ['user', 'age'], ['asc', 'desc'])
     // => objects for [{'barney', 36}, {'barney', 34}, {'fred', 48}, {'fred', 40}]
 ```
 
@@ -56,21 +130,21 @@ categories:
 - [options.trailing=true] (boolean): 指定在延迟结束后调用。
 ```javascript
     // 避免窗口在变动时出现昂贵的计算开销。
-    jQuery(window).on('resize', _.debounce(calculateLayout, 150));
+    jQuery(window).on('resize', _.debounce(calculateLayout, 150))
     
     // 当点击时 `sendMail` 随后就被调用。
     jQuery(element).on('click', _.debounce(sendMail, 300, {
     'leading': true,
     'trailing': false
-    }));
+    }))
     
     // 确保 `batchLog` 调用1次之后，1秒内会被触发。
-    var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
-    var source = new EventSource('/stream');
-    jQuery(source).on('message', debounced);
+    var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 })
+    var source = new EventSource('/stream')
+    jQuery(source).on('message', debounced)
     
     // 取消一个 trailing 的防抖动调用
-    jQuery(window).on('popstate', debounced.cancel);
+    jQuery(window).on('popstate', debounced.cancel)
 ```
 
 ## _.throttle(func, [wait=0], [options=])
@@ -84,14 +158,14 @@ categories:
 - [options.trailing=true] (boolean): 指定调用在节流结束后。
 ```javascript
     // 避免在滚动时过分的更新定位
-    jQuery(window).on('scroll', _.throttle(updatePosition, 100));
+    jQuery(window).on('scroll', _.throttle(updatePosition, 100))
     
     // 点击后就调用 `renewToken`，但5分钟内超过1次。
-    var throttled = _.throttle(renewToken, 300000, { 'trailing': false });
-    jQuery(element).on('click', throttled);
+    var throttled = _.throttle(renewToken, 300000, { 'trailing': false })
+    jQuery(element).on('click', throttled)
     
     // 取消一个 trailing 的节流调用。
-    jQuery(window).on('popstate', throttled.cancel);
+    jQuery(window).on('popstate', throttled.cancel)
 ```
 
 ## _.omit(object, [props])
@@ -99,9 +173,9 @@ categories:
 - object (Object): 来源对象。
 - [props] (...(string|string[])): 要被忽略的属性。（注：单独指定或指定在数组中。）
 ```javascript
-    var object = { 'a': 1, 'b': '2', 'c': 3 };
+    var object = { 'a': 1, 'b': '2', 'c': 3 }
  
-    _.omit(object, ['a', 'c']);
+    _.omit(object, ['a', 'c'])
     // => { 'b': '2' }
 ```
 
@@ -112,12 +186,40 @@ categories:
 ```javascript
     var object = {
         'a': [{ 'b': 2 }, { 'd': 4 }]
-    };
+    }
     
     var other = {
         'a': [{ 'c': 3 }, { 'e': 5 }]
-    };
+    }
     
-    _.merge(object, other);
+    _.merge(object, other)
     // => { 'a': [{ 'b': 2, 'c': 3 }, { 'd': 4, 'e': 5 }] }
+```
+
+## _.isEqual(value, other)
+执行深比较来确定两者的值是否相等。   
+**注意: **这个方法支持比较 arrays, array buffers, booleans, date objects, error objects, maps, numbers, Object objects, regexes, sets, strings, symbols, 以及 typed arrays. Object 对象值比较自身的属性，不包括继承的和可枚举的属性。 不支持函数和DOM节点比较。
+- value (*): 用来比较的值。
+- other (*): 另一个用来比较的值。
+```javascript
+    var object = { 'a': 1 }
+    var other = { 'a': 1 }
+    
+    _.isEqual(object, other)
+    // => true
+    
+    object === other
+    // => false
+```
+
+## _.chunk(array, [size=1])
+将数组（array）拆分成多个 size 长度的区块，并将这些区块组成一个新数组。 如果array 无法被分割成全部等长的区块，那么最后剩余的元素将组成一个区块。
+- array (Array): 需要处理的数组
+- [size=1] (number): 每个数组区块的长度
+```javascript
+    _.chunk(['a', 'b', 'c', 'd'], 2)
+    // => [['a', 'b'], ['c', 'd']]
+    
+    _.chunk(['a', 'b', 'c', 'd'], 3)
+    // => [['a', 'b', 'c'], ['d']]
 ```
