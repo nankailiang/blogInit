@@ -24,7 +24,7 @@ module.exports = {
         subSidebar: 'auto',
         sidebarDepth: 1,
         // 最后更新时间
-        lastUpdated: 'Last Updated',
+        // lastUpdated: 'Last Updated',
         // 项目开始时间
         startYear: '2021',
         // 导航栏配置
