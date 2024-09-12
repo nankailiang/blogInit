@@ -5,7 +5,7 @@ sidebar: auto
 tags: 
  - MongoDB
 categories:
- - MongoDB
+ - 数据库
 ---
 
 ## 基本介绍和用法

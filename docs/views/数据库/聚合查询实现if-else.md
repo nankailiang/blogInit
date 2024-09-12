@@ -5,7 +5,7 @@ sidebar: auto
 tags: 
  - MongoDB
 categories:
- - MongoDB
+ - 数据库
 ---
 
 在 MongoDB 中，可以使用聚合管道（Aggregation Pipeline）的 $cond 操作符来实现类似于 if-else 逻辑的条件处理。$cond 可以根据条件来选择不同的分支，并返回相应的结果。  

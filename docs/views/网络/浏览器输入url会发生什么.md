@@ -3,9 +3,9 @@ title: 浏览器输入url会发生什么
 date: 2022-03-05
 sidebar: auto
 tags: 
- - 计算机网络
+ - 网络
 categories:
- - 计算机网络
+ - 计算机
 ---
 
 ## 浏览器输入url会发生什么 
