@@ -1,7 +1,7 @@
 {
   "name": "frontend-notes",
   "version": "1.0.50",
-  "description": "",
+  "description": "一个涵盖前端、后端、数据库等多个技术领域的知识分享博客，基于VuePress构建。",
   "main": "index.js",
   "scripts": {
     "docs:dev": "vuepress dev docs",
